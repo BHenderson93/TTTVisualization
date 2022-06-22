@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="appsRefactor.js" async defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="title-container">
+        <h1 id="title">Data Visualization: Tic-Tac-Toe</h1>
+        <h1 id="depth-display">View Depth: 5</h1>
+        <h1 id="animation-speed">Animation Speed: 3s</h1>
+    </div>
+    <div id="menu-container">
+        <button> What am I looking at..? </button>
+        <button onclick="animateGameNode(currentNode)">Animate This Tree</button>
+            <div class="drop-down-content">
+                <button onclick="onlyLines()">Only Lines</button>
+                <button onclick="colorizeLines()">Colorize Lines</button>
+                <button onclick="showForced()">Highlight Forced</button>
+                <button onclick="animateSlower()">Animate Slower</button>
+                <button onclick="increaseViewdepth()">Viewdepth++</button>
+
+                <button onclick="displayDecisive()">Decisive Nodes</button>
+                <button onclick="colorizeNodes()">Colorize Nodes</button>
+                <button onclick="closeForced()">Hide Forced</button>
+                <button onclick="animateFaster()">Animate Faster</button>
+                <button onclick="decreaseViewdepth()">Viewdepth--</button>
+                
+        </div>
+        <button id="btn-reset">Reset Board</button>
+        <button id="btn-undo">Undo Move</button>
+        <button id="btn-redo">Redo Move</button>
+    </div>
+    <div id="game-container">
+        <div id="tree-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="TTT-container">
+            <div id="TTT-gameboard">
+                <div class="TTT-tile" id="1"></div>
+                <div class="TTT-tile" id="2"></div>
+                <div class="TTT-tile" id="3"></div>
+                <div class="TTT-tile" id="4"></div>
+                <div class="TTT-tile" id="5"></div>
+                <div class="TTT-tile" id="6"></div>
+                <div class="TTT-tile" id="7"></div>
+                <div class="TTT-tile" id="8"></div>
+                <div class="TTT-tile" id="9"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden">
+        <div class="info-panel">Tree Explanation</div>
+        <div class="info-panel">RGB Explanation</div>
+        <div class="info-panel">Forced Variations</div>
+        <div class="info-panel">Putting it all together</div>
+        <div class="info-panel"></div>
+        <div class="info-panel"></div>
+    </div>
+</body>
+
+</html>
