@@ -8,8 +8,6 @@ pencil.fillRect(0, 0, canvas.width, canvas.height)
 const xOrigin = canvas.width / 2
 const yOrigin = canvas.height / 2
 
-let lineCount = 0
-
 class recursiveGameNode {
     constructor(path, x, y, arcBound, offsetRadians, radiusIncrement, radiusOffset, maxTreeSize, parent) {
         this.path = path
@@ -722,13 +720,9 @@ const redoMove = (headNode) => {
 }
 
 const makeIntermediateNode = (gameNode) => {
-    if (gameNode.path.length === 0) {
-        lineCount = 0
-        return treeHead
-    } else {
-        lineCount = 0
+
         return new recursiveGameNode(gameNode.path, xOrigin, yOrigin, 2 * Math.PI, 0, baseRadius, gameNode.path.length, gameNode.path.length + viewDepth, { x: ' ' })
-    }
+        
 }
 
 const onlyLines = () => {
