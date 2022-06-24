@@ -14,7 +14,7 @@
     <div id="title-container">
         <h1 id="title">Data Visualization: Tic-Tac-Toe</h1>
         <h1 id="depth-display">View Depth: 5</h1>
-        <h1 id="animation-speed">Animation Speed: 3s</h1>
+        <h1 id="animation-speed">Animation Speed: 2s</h1>
     </div>
     <div id="menu-container">
         <button onclick="showInfoDisplay(true)"> What am I looking at..? </button>
@@ -38,7 +38,7 @@
         <button id="btn-redo">Redo Move</button>
     </div>
 
-    <div class="info-container" id="info-container">
+    <div class="info-container hidden" id="info-container">
         <div class="info-grid">
             <div class="info-panel">Game Tree
                 <img class="info-pic" src="images/newLines.png" alt="">
@@ -50,7 +50,7 @@
                 <img src="images/newPrimary.png" alt="" class="info-pic">
             </div>
             <div class="info-panel">Secondary Nodes
-                <p>3) Each node counts the number of X wins, O wins, and ties that extend from it, then colors itself and its line by blending the red, green, and blue components. The more red a node's circle and line is, the more X wins. The more blue, the more O wins. The more green, the more ties. </p>
+                <p>3) Each node counts the number of X wins, O wins, and ties that extend from it, then colors itself and its line by blending the red, green, and blue components. The more red a node's circle, the more X wins farther out. The more blue, the more O wins. The more green, the more ties. </p>
                 <img src="images/newColorizedNodes.png" alt="" class="info-pic">
             </div>
             <div class="info-panel">Forced Variations 
@@ -65,7 +65,7 @@
             </div>
             <div class="info-panel">Putting it all together
                 <p>Check out the video below for a 4 minute walkthrough, or click the button to the right to go straight in!</p>
-                <iframe class="info-pic" style="width:90%;"src="https://www.youtube.com/embed/j_ljpKNlFT0"
+                <iframe class="info-pic" style="width:95%;"src="https://www.youtube.com/embed/j_ljpKNlFT0"
                     frameborder="0"></iframe>
             </div>
         </div>
