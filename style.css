@@ -16,6 +16,9 @@ button{
     color:white;
     border-radius: 5vh;
 }
+p{
+    font-size: 2vh;
+}
 
 .drop-down-content{
     display:grid;
@@ -33,6 +36,49 @@ button{
 
 .TTT-tile{
     font-size: 20vh;
+}
+.big-btn{
+    height: 30vh;
+    width: 5vw;
+    align-self:center;
+}
+.info-pic{
+    position:absolute;
+    bottom:0;
+    right:0;
+    float:right;
+    z-index:0;
+    height:50%;
+    margin:2%;
+}
+
+.info-container{
+    position: absolute;
+    width:100vw;
+    height:90vh;
+    top:7vh;
+    left:0;
+    padding-top:1vh;
+    background:black;
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    border-top:.2vw solid white;
+}
+.info-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 25vw);
+    grid-template-rows: repeat(2 , 40vh);
+    gap: 5vh;
+}
+
+.info-panel{
+    position:relative;
+    height: 100%;
+    width: 100%;
+    border:.2vw solid white;
+    padding:.5vw;
 }
 
 #game-container{
@@ -85,4 +131,7 @@ justify-self: center;
 }
 h1{
     margin:0 3vw;
+}
+.hidden{
+    display:none;
 }

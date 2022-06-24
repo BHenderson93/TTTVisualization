@@ -1,1 +1,5 @@
-# TTTVisualization.github.io
+# TTTVisualization by Bryce Henderson
+
+This application recursively generates a game tree for tic-tac-toe. It starts from any legal board combination, which is usually a blank board. After calculating the tree, each node passes up its data, starting from the farthest out nodes (any 3 in a row for X or O, or a tie). The parents of these nodes take in that data and process it. A "nodeColor" is constructed by a Red, Green, Blue color format. RGB(% X wins*255, % ties*255, % O wins*255). For example, if a node has 1 X win, 1 O win, and no ties, its RGB node color would be RGB(127.5, 0 , 127.5). 
+
+After that, the node looks at its children and counts, directly, how many of them are forced X wins or forced O wins. Initially, the only nodes defined as "forced" are the actual X win or O win nodes; but, the parent can tell whether IT is a forced variation, too. If a node has X moving next, if there is a single child node that is an X forced win, then that node is also an X forced win because X can choose that node; however, if it's O's turn, then ALL children must be X forced wins for the parent to be an X forced win (ie- no matter where O chooses, X still wins).

@@ -8,6 +8,8 @@ pencil.fillRect(0, 0, canvas.width, canvas.height)
 const xOrigin = canvas.width / 2
 const yOrigin = canvas.height / 2
 
+let lineCount = 0
+
 class recursiveGameNode {
     constructor(path, x, y, arcBound, offsetRadians, radiusIncrement, radiusOffset, maxTreeSize, parent) {
         this.path = path
@@ -27,10 +29,9 @@ class recursiveGameNode {
         this.totalNodes = 1
         this.maxTreeSize = maxTreeSize
         this.parent = parent
-        //queue of startup-functions to run
+
         this.determineScoresAndDecisiveColor()
 
-        //use this for the game tree, draw outcomes if there is one.
         if (!this.xWin && !this.oWin && !this.tie) {
             this.generateChildPaths()
             this.generateChildren()
@@ -44,9 +45,9 @@ class recursiveGameNode {
     }
 
 
-    //this function is ran on startup.
+
     determineScoresAndDecisiveColor() {
-        //use ids to check which win conditions in the path have been contributed to.
+
         this.ids = { 1: [1, 0, 0, 1, 0, 0, 1, 0], 2: [0, 1, 0, 1, 0, 0, 0, 0], 3: [0, 0, 1, 1, 0, 0, 0, 1], 4: [1, 0, 0, 0, 1, 0, 0, 0], 5: [0, 1, 0, 0, 1, 0, 1, 1], 6: [0, 0, 1, 0, 1, 0, 0, 0], 7: [1, 0, 0, 0, 0, 1, 0, 1], 8: [0, 1, 0, 0, 0, 1, 0, 0], 9: [0, 0, 1, 0, 0, 1, 1, 0] }
         this.xScore = [0, 0, 0, 0, 0, 0, 0, 0]
         this.oScore = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -61,7 +62,6 @@ class recursiveGameNode {
         this.resultTally = 0
         this.nodeScore = 0
 
-        //iterate through the path, take the id array from each digit and add it to appropriate score.
         for (let i = 0; i < this.path.length; i++) {
             if (i % 2 === 0) {
                 for (let j = 0; j < 8; j++) {
@@ -73,7 +73,7 @@ class recursiveGameNode {
                 }
             }
         }
-        //if a score includes 3, it's a win. If no wins found and path length is 9, it's a tie.
+
         if (this.xScore.includes(3)) {
             this.xWin = true
             this.xWinTally++
@@ -81,7 +81,7 @@ class recursiveGameNode {
             this.resultTally++
             this.nodeColor = `rgba(255,0,0,1)`
             this.nodeScore++
-            //console.log(this.path, 'xWin')
+
         } else if (this.oScore.includes(3)) {
             this.oWin = true
             this.oWinTally++
@@ -89,24 +89,19 @@ class recursiveGameNode {
             this.resultTally++
             this.nodeColor = `rgba(0,0,255,1)`
             this.nodeScore--
-            //console.log(this.path, 'oWin')
+
         } else if (this.path.length === 9 && !this.xWin && !this.oWin) {
             this.tie = true
             this.tieTally++
             this.resultTally++
             this.nodeColor = `rgba(0,255,0,1)`
-            this.nodeScore // placeholder for aesthetics
-            //console.log(this.path, 'tie')
         }
 
 
     }
 
     detectForcedXVariations() {
-        //check which move it is. If X's, must contain forced X win in 1 variation, else must contain forced X win in all variations.
         const currMove = this.path.length % 2
-
-        //things if it's X's turn
         if (currMove === 0) {
             for (let child of this.children) {
                 if (child.xWinForced) {
@@ -127,10 +122,9 @@ class recursiveGameNode {
     }
 
     detectForcedOVariations() {
-        //check which move it is. If X's, must contain forced X win in 1 variation, else must contain forced X win in all variations.
+
         const currMove = this.path.length % 2
 
-        //things if it's X's turn
         if (currMove === 1) {
             for (let child of this.children) {
                 if (child.oWinForced) {
@@ -150,7 +144,6 @@ class recursiveGameNode {
         }
     }
 
-    //this function is ran during generateChildren
     updateSelfWithChildScores(child) {
         this.totalNodes += child.totalNodes
         this.nodeScore += child.nodeScore
@@ -163,7 +156,6 @@ class recursiveGameNode {
 
     determineColorByNodeScore() {
 
-        //could also do nodeScore/totalNodes...
         let red = (this.xWinTally / this.resultTally) * 255
         let green = (this.tieTally / this.resultTally) * 255
         let blue = (this.oWinTally / this.resultTally) * 255
@@ -172,14 +164,12 @@ class recursiveGameNode {
 
     determineBestXLine() {
         let bestMove = false
-        //if a child has X win forced, recommend that.
         for (let child of this.children) {
             if (child.xWinForced) {
                 bestMove = child
             }
         }
 
-        //if no forced, pick variation with most xWins/oWins that is not an O forced win.
         if (!bestMove) {
             let bestChildren = this.children.filter((child) => !child.oWinForced)
 
@@ -190,7 +180,6 @@ class recursiveGameNode {
                         bestMove = child
                     }
                 }
-                //if all moves are O forced wins, pick the best X variation
             } else {
                 bestMove = this.children[0]
                 for (let child of this.children) {
@@ -200,21 +189,17 @@ class recursiveGameNode {
                 }
             }
         }
-        //set the objects best x to the path of the best child
         this.bestXMove = bestMove.path
     }
 
     determineBestOLine() {
-        //see X for explanation
         let bestMove = false
-        //if a child has O win forced, recommend that.
         for (let child of this.children) {
             if (child.oWinForced) {
                 bestMove = child
             }
         }
 
-        //if no forced, pick variation with least xWins/oWins that is not an X forced win.
         if (!bestMove) {
             let bestChildren = this.children.filter((child) => !child.xWinForced)
 
@@ -225,7 +210,6 @@ class recursiveGameNode {
                         bestMove = child
                     }
                 }
-                //if all moves are X forced wins, pick the best X variation
             } else {
                 bestMove = this.children[0]
                 for (let child of this.children) {
@@ -235,23 +219,19 @@ class recursiveGameNode {
                 }
             }
         }
-        //set the objects best x to the path of the best child
         this.bestOMove = bestMove.path
     }
 
-    //function to take in the path and produce remaining numbers. Then, push those onto copies of the path and append to this.childPaths property.
     generateChildPaths() {
         for (let num of this.path) {
             this.remainingNums.splice(this.remainingNums.indexOf(num), 1)
         }
 
-        //console.log(this.path, this.remainingNums)
         for (let num of this.remainingNums) {
             let currPath = this.path.slice()
             currPath.push(num)
             this.childPaths.push(currPath)
         }
-        //console.log("childPaths made")
     }
 
     generateChildren() {
@@ -259,28 +239,21 @@ class recursiveGameNode {
         const childRadiusIncrement = this.radiusIncrement
         const childRadius = this.radius + this.radiusIncrement
         const childArcLength = (childArcBound / (2)) * childRadius
-        //console.log('child radius',childRadius)
 
         let childCount = 0
 
         for (let childPath of this.childPaths) {
-            //console.log(childPath)
             const childOffsetRadians = (childArcBound * childCount) + this.offsetRadians
-            //console.log(childOffsetDegree)
             const childX = (Math.sin(childOffsetRadians + (childArcBound / 2)) * childRadius) + xOrigin
             const childY = (Math.cos(childOffsetRadians + (childArcBound / 2)) * childRadius * -1) + yOrigin
-            //console.log('Child x,y, offset', childX, childY, childOffsetDegree)
-            //this.drawNodeCircle(childX,childY,childArcLength,this.offsetRadians,childArcBound)
             const myChild = new recursiveGameNode(childPath, childX, childY, childArcBound, childOffsetRadians, childRadiusIncrement, this.radiusOffset, this.maxTreeSize, this)
             this.updateSelfWithChildScores(myChild)
             this.children.push(myChild)
             childCount++
-            //this.drawLineToChild(this.x, childX, this.y, childY,'white')
         }
     }
 
     drawLinesToChildren(color) {
-        //console.log(xOrig,xEnd,yOrig,yEnd)
         for (let child of this.children) {
             if (color) {
                 pencil.strokeStyle = color
@@ -288,6 +261,7 @@ class recursiveGameNode {
                 pencil.strokeStyle = child.nodeColor
             }
             pencil.lineWidth = this.radius === 0 ? (this.arcBound / 16) * this.radiusIncrement * .2 : (this.arcBound / 16) * this.radius
+            pencil.lineWidth > (currentNode.arcBound / 16) * this.radiusIncrement * .2 ? pencil.lineWidth=(currentNode.arcBound / 16) * this.radiusIncrement * .15 : null
             pencil.beginPath()
             pencil.moveTo(this.x, this.y)
             pencil.lineTo(child.x, child.y)
@@ -337,7 +311,6 @@ class recursiveGameNode {
             pencil.arc(xStart, yStart, radius, 0, 2 * Math.PI)
             pencil.fill()
         }
-
     }
 
     clearLines() {
@@ -373,7 +346,6 @@ class recursiveGameNode {
     }
 }
 
-//find the node within the treeHead.
 const findGameNode = (gameTree, pathArray) => {
     let currentChild = gameTree
 
@@ -387,7 +359,6 @@ const findGameNode = (gameTree, pathArray) => {
             }
         }
         if (!isPossible) {
-            console.log('Cant find that gameNode in tree.')
             return false
         }
     }
@@ -395,7 +366,6 @@ const findGameNode = (gameTree, pathArray) => {
 }
 
 const resetBoard = () => {
-    console.log('reseting')
     currentNode = new recursiveGameNode(testArray, xOrigin, yOrigin, 2 * Math.PI, 0, baseRadius, radOffset, testArray.length + viewDepth, { x: ' ' })
     drawGameNode(currentNode)
     currentPath = []
@@ -433,7 +403,6 @@ const drawGameNode = (gameNode) => {
             } else if (iNodes) {
                 node.drawLinesToChildren('white')
                 if (node.xWin || node.oWin || node.tie) {
-                    console.log('drawing node')
                     node.drawNodeCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 3) : (node.arcBound / 8) * node.radius)
                 }
             } else {
@@ -441,7 +410,6 @@ const drawGameNode = (gameNode) => {
             }
 
         } else {
-            //conditional included for visualization of single node. Always unnecessary unless single node is input.
             if (node.path.length < node.maxTreeSize + 1) {
                 if (iNodes && (node.xWin || node.oWin || node.tie)) {
                     node.drawForcedVariationCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 2) : (node.arcBound / 4) * node.radius)
@@ -450,7 +418,6 @@ const drawGameNode = (gameNode) => {
                     node.drawForcedVariationCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 2) : (node.arcBound / 4) * node.radius)
                     node.drawNodeCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 3) : (node.arcBound / 8) * node.radius)
                 }
-                
             }
         }
         if (iFVClosed) {
@@ -464,7 +431,6 @@ const drawGameNode = (gameNode) => {
                 recursiveDraw(child)
             }
         }
-
     }
     recursiveDraw(gameNode)
 }
@@ -518,9 +484,6 @@ const animateGameNode = (gameNode) => {
                     }
                     let node = nodeList[index]
                     node.drawLineToParent('white')
-                    /*                     if (node.xWin || node.oWin || node.tie) {
-                                            node.drawNodeCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 3) : (node.arcBound / 8) * node.radius)
-                                        } */
                 }
             }, timePerTick)
         }, synchronizer)
@@ -540,16 +503,13 @@ const animateGameNode = (gameNode) => {
                         clearInterval(nodesAnimation)
                         break
                     }
-
                     let node = nodeList[index2]
                     if (node.xWin || node.oWin || node.tie) {
                         node.drawNodeCircle(node.x, node.y, node.radius === 0 ? (node.radiusIncrement / 3) : (node.arcBound / 8) * node.radius, node.nodeColor)
                     }
-
                 }
             }, timePerTick)
         }, synchronizer)
-
         synchronizer += animationLength + buffer
     }
 
@@ -687,18 +647,20 @@ const animateGameNode = (gameNode) => {
         synchronizer += animationLength * 1.2
     }
 
-    //redraw for clarity
     redrawAnimation = setTimeout(() => {
         pencil.fillStyle = 'black';
         pencil.fillRect(0, 0, canvas.width, canvas.height)
-
         drawGameNode(gameNode)
     }, synchronizer)
 }
 
 const undoMove = (headNode) => {
+    if(currentPath.length===0){
+        console.log('no path')
+        return
+    }
     let removedNode = document.getElementById(currentPath.pop())
-    removedNode.innerText = ''
+    removedNode.innerText=''
     removedNode.classList.remove('marked')
     currentNode = makeIntermediateNode(findGameNode(headNode, currentPath))
     drawGameNode(currentNode)
@@ -720,9 +682,13 @@ const redoMove = (headNode) => {
 }
 
 const makeIntermediateNode = (gameNode) => {
-
+    if (gameNode.path.length === 0) {
+        lineCount = 0
+        return treeHead
+    } else {
+        lineCount = 0
         return new recursiveGameNode(gameNode.path, xOrigin, yOrigin, 2 * Math.PI, 0, baseRadius, gameNode.path.length, gameNode.path.length + viewDepth, { x: ' ' })
-        
+    }
 }
 
 const onlyLines = () => {
@@ -734,7 +700,6 @@ const onlyLines = () => {
     iFVClosed = false
     clearAnimationIntervals()
     drawGameNode(currentNode)
-    console.log('in Onlylines')
 }
 
 const displayDecisive = () => {
@@ -792,7 +757,7 @@ const closeForced = () => {
     drawGameNode(currentNode)
 }
 
-let animationLength = 3000
+let animationLength = 2000
 const animateSlower = () => {
     animationLength += 500
     document.getElementById('animation-speed').innerText = `Animation Speed: ${animationLength / 1000}s`
@@ -821,6 +786,15 @@ const increaseViewdepth = () => {
     drawGameNode(currentNode)
 }
 
+const showInfoDisplay = (bool) =>{
+    let display = document.getElementById('info-container')
+    if(bool){
+        display.classList.remove('hidden')
+    }else{
+        display.classList.add('hidden')
+    } 
+    return
+}
 
 const testArray = []
 const radOffset = testArray.length
@@ -843,7 +817,6 @@ iFVClosed = false
 
 drawGameNode(treeHead)
 
-//click handler for gameboard
 document.getElementById('TTT-gameboard').addEventListener('click', (e) => {
     if (!e.target.classList.contains('marked') && (e.target.classList.contains('TTT-tile'))) {
         currentPath.push(Number(e.target.id))

@@ -17,26 +17,59 @@
         <h1 id="animation-speed">Animation Speed: 3s</h1>
     </div>
     <div id="menu-container">
-        <button> What am I looking at..? </button>
+        <button onclick="showInfoDisplay(true)"> What am I looking at..? </button>
         <button onclick="animateGameNode(currentNode)">Animate This Tree</button>
-            <div class="drop-down-content">
-                
-                <button onclick="onlyLines()">Only Lines</button>
-                <button onclick="colorizeLines()">Colorize Lines</button>
-                <button onclick="showForced()">Highlight Forced</button>
-                <button onclick="animateSlower()">Animate Slower</button>
-                <button onclick="increaseViewdepth()">Viewdepth++</button>
+        <div class="drop-down-content">
+            <button onclick="onlyLines()">Only Lines</button>
+            <button onclick="colorizeLines()">Colorize Lines</button>
+            <button onclick="showForced()">Highlight Forced</button>
+            <button onclick="animateSlower()">Animate Slower</button>
+            <button onclick="increaseViewdepth()">Viewdepth++</button>
 
-                <button onclick="displayDecisive()">Decisive Nodes</button>
-                <button onclick="colorizeNodes()">Colorize Nodes</button>
-                <button onclick="closeForced()">Hide Forced</button>
-                <button onclick="animateFaster()">Animate Faster</button>
-                <button onclick="decreaseViewdepth()">Viewdepth--</button>
-                
+            <button onclick="displayDecisive()">Decisive Nodes</button>
+            <button onclick="colorizeNodes()">Colorize Nodes</button>
+            <button onclick="closeForced()">Hide Forced</button>
+            <button onclick="animateFaster()">Animate Faster</button>
+            <button onclick="decreaseViewdepth()">Viewdepth--</button>
+
         </div>
         <button id="btn-reset">Reset Board</button>
         <button id="btn-undo">Undo Move</button>
         <button id="btn-redo">Redo Move</button>
+    </div>
+
+    <div class="info-container" id="info-container">
+        <div class="info-grid">
+            <div class="info-panel">Game Tree
+                <img class="info-pic" src="images/newLines.png" alt="">
+                <p>1) This is a game tree! The center point represents the "node" that's being displayed. All lines extending out represent connections to other nodes. You read the tree clockwise for available squares on the board. First branch from the center represents the player taking the first available square (reading across rows first).  </p>
+               
+            </div>
+            <div class="info-panel">Primary Nodes
+                <p>2) Whenever a node (some combination of X's and O's) results in a win for X (red), a win for O (blue), or a tie (green), they are depicted as a circle represented by that color. Reading the tree *ahem* "A tie occurs if X chooses the first available square (middle left), O chooses the first available square (bottom left), and X takes the remaining square (bottom right).</p>
+                <img src="images/newPrimary.png" alt="" class="info-pic">
+            </div>
+            <div class="info-panel">Secondary Nodes
+                <p>3) Each node counts the number of X wins, O wins, and ties that extend from it, then colors itself and its line by blending the red, green, and blue components. The more red a node's circle and line is, the more X wins. The more blue, the more O wins. The more green, the more ties. </p>
+                <img src="images/newColorizedNodes.png" alt="" class="info-pic">
+            </div>
+            <div class="info-panel">Forced Variations 
+                <p>4) After working through the contents of the nodes below, a node can check to see if it's a forced variation, meaning that either the X player or the O player WILL win if they play perfectly. Nodes that are forced variations are shown with a larger cicle behind their RGB colored circle. These nodes are exceptionally valuable because they actually win, if played properly.</p>
+                <img src="images/newForced.png" alt="" class="info-pic">
+            </div>
+            <div class="info-panel">Forced Closed, Display, Viewdepth, and Animate
+                <p>If it's a win it's a win. Let's hide it so we can see more clearly. But now that you can understand what those lines, circles, and colors mean, feel free to forget all of it and just click around the application finding cool looking nodes! Check out the construction animation or change the View Depth/Animation Speed.
+                </p>
+                <img src="images/newClosed.png"
+                    alt="" class="info-pic">
+            </div>
+            <div class="info-panel">Putting it all together
+                <p>Check out the video below for a 4 minute walkthrough, or click the button to the right to go straight in!</p>
+                <iframe class="info-pic" style="width:90%;"src="https://www.youtube.com/embed/j_ljpKNlFT0"
+                    frameborder="0"></iframe>
+            </div>
+        </div>
+        <button class="big-btn" onclick="showInfoDisplay(false)">Close Info Menu</button>
     </div>
     <div id="game-container">
         <div id="tree-container">
@@ -57,14 +90,6 @@
         </div>
     </div>
 
-    <div class="hidden">
-        <div class="info-panel">Tree Explanation</div>
-        <div class="info-panel">RGB Explanation</div>
-        <div class="info-panel">Forced Variations</div>
-        <div class="info-panel">Putting it all together</div>
-        <div class="info-panel"></div>
-        <div class="info-panel"></div>
-    </div>
 </body>
 
 </html>
